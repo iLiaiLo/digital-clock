@@ -1,24 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
 
 function App() {
+  const [seconds,SetSeconds] = React.useState('');
+  const [minutes,SetMinutes] = React.useState('');
+  const [hours,SetHours] = React.useState('')
+
+  //:${date.getMinutes().toString().length===1?"0"+date.getMinutes():date.getMinutes()}:${date.getSeconds().toString().length===1?"0"+date.getSeconds():date.getSeconds()}
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      const date = new Date();
+      SetSeconds(`${date.getSeconds().toString().length===1?"0"+date.getSeconds():date.getSeconds()}`);
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  React.useEffect(()=>{
+    const interval=setInterval(()=>{
+    const date= new Date();
+    SetMinutes(`${date.getMinutes().toString().length===1?"0"+date.getMinutes():date.getMinutes()}`);
+  },1000);
+
+  return ()=>{
+    clearInterval(interval)
+  }
+  },[]);
+
+  React.useEffect(()=>{
+    const interval=setInterval(()=>{
+    const date= new Date();
+    SetHours(`${date.getHours().toString().length===1?"0"+date.getHours():date.getHours()}`);
+  },1000);
+
+  return ()=>{
+    clearInterval(interval)
+  }
+  },[])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <div className="container">
+    <div className="hours">{hours}</div>
+    <div className="minutes">{minutes}</div>
+    <div className="seconds">{seconds}</div>
+  </div>   
+
   );
 }
 
